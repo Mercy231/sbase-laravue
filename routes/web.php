@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HelperController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::controller(AuthController::class)->group(function () {
+    Route::post("/signup", "signup");
+    Route::post("/login", "login");
+    Route::get("/logout", "logout");
+});
+Route::controller(HelperController::class)->group(function () {
+    Route::get("/countries", "getCountries");
+    Route::post("/states", "getStates");
+    Route::post("/cities", "getCities");
+});
+Route::controller(UserController::class)->group(function () {
+    Route::get("/user", "getUser");
+});
 Route::get("/{any}", function () {
     return view("app");
 })->where("any", ".*");

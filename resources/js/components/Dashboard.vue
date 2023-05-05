@@ -23,6 +23,8 @@ onMounted(async () => {
         .then(response => {
             if ('user' in response.data) {
                 user.value = response.data.user
+            } else {
+                logout()
             }
         })
 })

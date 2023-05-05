@@ -98,6 +98,15 @@ const getCities = async () => {
         })
 }
 onMounted(async () => {
+    await axios
+        .get('/user')
+        .then(response => {
+            if (!'user' in response.data) {
+                localStorage.removeItem('isAuth')
+            } else {
+                router.push({name: 'dashboard'})
+            }
+        })
     await getCountries()
 })
 </script>

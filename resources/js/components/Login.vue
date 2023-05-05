@@ -8,41 +8,87 @@
     </div>
 </template>
 
-<script setup>
+<script>
 import {useRouter} from "vue-router";
-import {onMounted, ref} from "vue";
 
-const router = useRouter()
-
-let email = ref()
-let password = ref()
-
-let error = ref('')
-
-const login = async () => {
-    await axios
-        .post('/login', {
-            email: email.value,
-            password: password.value,
-        })
-        .then(response => {
-            if (response.data.success) {
-                localStorage.setItem('isAuth', 'true')
-                router.push({name: 'dashboard'})
-            } else {
-                error.value = response.data.error
-            }
-        })
+export default {
+    data() {
+        return  {
+            router: useRouter(),
+            email: '',
+            password: '',
+            error: '',
+        }
+    },
+    methods: {
+        login: async function () {
+            await axios
+                .post('/login', {
+                    email: this.email,
+                    password: this.password,
+                })
+                .then(response => {
+                    if (response.data.success) {
+                        localStorage.setItem('isAuth', 'true')
+                        this.router.push({name: 'dashboard'})
+                    } else {
+                        this.error = response.data.error
+                    }
+                })
+        },
+        getUser: async function () {
+            await axios
+                .get('/user')
+                .then(response => {
+                    if ('user' in response.data) {
+                        localStorage.setItem('isAuth', 'true')
+                        this.router.push({name: 'dashboard'})
+                    } else {
+                        localStorage.removeItem('isAuth')
+                    }
+                })
+        }
+    },
+    mounted() {
+        this.getUser()
+    }
 }
-onMounted(async () => {
-    await axios
-        .get('/user')
-        .then(response => {
-            if (!'user' in response.data) {
-                localStorage.removeItem('isAuth')
-            } else {
-                router.push({name: 'dashboard'})
-            }
-        })
-})
 </script>
+<!--<script setup>-->
+<!--import {useRouter} from "vue-router";-->
+<!--import {onMounted, ref} from "vue";-->
+
+<!--const router = useRouter()-->
+
+<!--let email = ref()-->
+<!--let password = ref()-->
+
+<!--let error = ref('')-->
+
+<!--const login = async () => {-->
+<!--    await axios-->
+<!--        .post('/login', {-->
+<!--            email: email.value,-->
+<!--            password: password.value,-->
+<!--        })-->
+<!--        .then(response => {-->
+<!--            if (response.data.success) {-->
+<!--                localStorage.setItem('isAuth', 'true')-->
+<!--                router.push({name: 'dashboard'})-->
+<!--            } else {-->
+<!--                error.value = response.data.error-->
+<!--            }-->
+<!--        })-->
+<!--}-->
+<!--onMounted(async () => {-->
+<!--    await axios-->
+<!--        .get('/user')-->
+<!--        .then(response => {-->
+<!--            if (!'user' in response.data) {-->
+<!--                localStorage.removeItem('isAuth')-->
+<!--            } else {-->
+<!--                router.push({name: 'dashboard'})-->
+<!--            }-->
+<!--        })-->
+<!--})-->
+<!--</script>-->

@@ -39,7 +39,22 @@ export default createRouter({
         {
             path: '/logout',
             name: 'logout',
-            redirect: {name: 'welcome'},
+            beforeEnter(to, from, next) {
+                const logout = async () => {
+                    await axios.get('/logout')
+                }
+                logout()
+                localStorage.removeItem('isAuth')
+                next({name: 'welcome'})
+            },
         },
+        // {
+        //     path: '/posts',
+        //     name: 'posts',
+        //     component: () => import('./components/Posts.vue'),
+        //     beforeEnter(to, from, next) {
+        //         localStorage.getItem('isAuth') ? next() : next({name: 'login'})
+        //     },
+        // },
     ],
 })

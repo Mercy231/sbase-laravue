@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import {useRouter} from "vue-router";
+import {useRouter} from "vue-router"
+import {mapState} from "vuex"
 
 export default {
     data() {
@@ -40,6 +41,9 @@ export default {
 
         }
     },
+    computed: mapState([
+        'user'
+    ]),
     methods: {
         signup: async function () {
             await axios
@@ -98,113 +102,11 @@ export default {
                     }
                 })
         },
-        getUser: async function () {
-            await axios
-                .get('/user')
-                .then(response => {
-                    if ('user' in response.data) {
-                        localStorage.setItem('isAuth', 'true')
-                        this.router.push({name: 'dashboard'})
-                    } else {
-                        localStorage.removeItem('isAuth')
-                    }
-                })
-        }
     },
     mounted() {
-        this.getUser()
+        this.$store.dispatch('user')
+        if (localStorage.getItem('isAuth')) this.router.push({name: 'dashboard'})
         this.getCountries()
     }
 }
 </script>
-<!--<script setup>-->
-<!--import {useRouter} from "vue-router"-->
-<!--import {onMounted, ref} from "vue"-->
-
-<!--const router = useRouter()-->
-
-<!--let full_name = ref()-->
-<!--let email = ref()-->
-<!--let password = ref()-->
-<!--let password_confirmation = ref()-->
-
-<!--let countries = ref()-->
-<!--let states = ref()-->
-<!--let cities = ref()-->
-
-<!--let country = ref('')-->
-<!--let state = ref('')-->
-<!--let city = ref('')-->
-
-<!--let error = ref('')-->
-
-<!--const signup = async () => {-->
-<!--    await axios-->
-<!--        .post('/signup', {-->
-<!--            full_name: full_name.value,-->
-<!--            email: email.value,-->
-<!--            password: password.value,-->
-<!--            password_confirmation: password_confirmation.value,-->
-<!--            country: country.value,-->
-<!--            state: state.value,-->
-<!--            city: city.value,-->
-<!--        })-->
-<!--        .then(response => {-->
-<!--            if (response.data.success) {-->
-<!--                localStorage.setItem('isAuth', 'true')-->
-<!--                router.push({name: 'dashboard'})-->
-<!--            } else {-->
-<!--                error.value = response.data.error-->
-<!--            }-->
-<!--        })-->
-<!--}-->
-<!--const getCountries = async () => {-->
-<!--    await axios-->
-<!--        .get('/countries')-->
-<!--        .then(response => {-->
-<!--            if ('countries' in response.data) {-->
-<!--                countries.value = response.data.countries-->
-<!--            }-->
-<!--        })-->
-<!--}-->
-<!--const getStates = async () => {-->
-<!--    states.value = null-->
-<!--    state.value = ''-->
-<!--    cities.value = null-->
-<!--    city.value = ''-->
-<!--    await axios-->
-<!--        .post('/states', {-->
-<!--            country: country.value,-->
-<!--        })-->
-<!--        .then(response => {-->
-<!--            if ('states' in response.data) {-->
-<!--                states.value = response.data.states-->
-<!--            }-->
-<!--        })-->
-<!--}-->
-<!--const getCities = async () => {-->
-<!--    cities.value = ''-->
-<!--    city.value = ''-->
-<!--    await axios-->
-<!--        .post('/cities', {-->
-<!--            state: state.value,-->
-<!--        })-->
-<!--        .then(response => {-->
-<!--            if ('cities' in response.data) {-->
-<!--                cities.value = response.data.cities-->
-<!--            }-->
-<!--        })-->
-<!--}-->
-<!--onMounted(async () => {-->
-<!--    await axios-->
-<!--        .get('/user')-->
-<!--        .then(response => {-->
-<!--            if (!'user' in response.data) {-->
-<!--                localStorage.removeItem('isAuth')-->
-<!--            } else {-->
-<!--                router.push({name: 'dashboard'})-->
-<!--            }-->
-<!--        })-->
-<!--    await getCountries()-->
-<!--})-->
-<!--</script>-->

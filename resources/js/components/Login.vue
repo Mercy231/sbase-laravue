@@ -21,26 +21,14 @@ export default {
             error: '',
         }
     },
+    computed: mapState(['auth']),
     methods: {
         login: async function () {
-            await axios
-                .post('/login', {
-                    email: this.email,
-                    password: this.password,
-                })
+            await this.$store.dispatch('login', {email: this.email, password: this.password})
                 .then(response => {
-                    if (response.data.success) {
-                        localStorage.setItem('isAuth', 'true')
-                        this.router.push({name: 'dashboard'})
-                    } else {
-                        this.error = response.data.error
-                    }
+                    response ? this.error = response : this.router.push({name: 'dashboard'})
                 })
         },
     },
-    mounted() {
-        this.$store.dispatch('user')
-        if (localStorage.getItem('isAuth')) this.router.push({name: 'dashboard'})
-    }
 }
 </script>

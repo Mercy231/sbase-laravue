@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard">
-        <h1>{{ user.email }}</h1>
+        <h1>{{ auth.user.email }}</h1>
         <button @click="logout">Logout</button>
     </div>
 </template>
@@ -16,16 +16,11 @@ export default {
             error: '',
         }
     },
-    computed: mapState([
-       'user'
-    ]),
+    computed: mapState(['auth']),
     methods: {
-        logout: function () {
-            this.router.push({name: 'logout'})
+        logout: async function () {
+            await this.$store.dispatch('logout')
         },
-    },
-    mounted() {
-        this.$store.dispatch('user')
     }
 }
 </script>

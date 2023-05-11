@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +22,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = "users";
     protected $fillable = [
         'full_name',
         'email',
@@ -49,6 +51,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function post () : HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+    public function comment () : HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
     protected function setPasswordAttribute ($password): string
     {
         return $this->attributes['password'] = Hash::make($password);

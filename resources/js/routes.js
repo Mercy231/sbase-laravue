@@ -35,14 +35,14 @@ const router = createRouter({
             path: '/logout',
             name: 'logout',
         },
-        // {
-        //     path: '/posts',
-        //     name: 'posts',
-        //     component: () => import('./components/Posts.vue'),
-        //     beforeEnter(to, from, next) {
-        //         localStorage.getItem('isAuth') ? next() : next({name: 'login'})
-        //     },
-        // },
+        {
+            path: '/posts',
+            name: 'posts',
+            component: () => import('./components/Posts.vue'),
+            meta: {
+                requiresAuth: true
+            }
+        },
     ],
 })
 router.beforeEach(async (to) => {

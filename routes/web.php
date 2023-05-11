@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,17 @@ Route::controller(HelperController::class)->group(function () {
 });
 Route::controller(UserController::class)->group(function () {
     Route::get("/user", "getUser");
+});
+Route::controller(PostController::class)->group(function () {
+    Route::get("/post", "getPosts");
+    Route::post("/post/create", "create");
+    Route::patch("/post/{id}", "update");
+    Route::delete("/post/{id}", "destroy");
+});
+Route::controller(CommentController::class)->group(function () {
+    Route::post("/comment/create", "create");
+    Route::patch("/comment/{id}", "update");
+    Route::delete("/comment/{id}", "destroy");
 });
 Route::get("/{any}", function () {
     return view("app");

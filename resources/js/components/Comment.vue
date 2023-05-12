@@ -13,9 +13,26 @@
         <hr>
         <div class="comment-footer">
             <h5>Comments:</h5>
+            <button @click="show_modal_create=true">Create comment</button>
         </div>
         <div class="comments">
+            <Comment
+                v-for="comment in comment.comments"
+                :comment="comment"
+            />
+        </div>
+    </div>
 
+    <!--Comment create modal-->
+    <div class="modal" v-if="show_modal_create">
+        <div class="modal-mask">
+            <div class="modal-container">
+                <h1>create comment</h1>
+                <textarea v-model="comment_text" name="title"></textarea>
+                <button class="btn" @click="create">Create</button>
+                <button class="btn" @click="show_modal_create=false">Close</button>
+                <p>{{error}}</p>
+            </div>
         </div>
     </div>
 
@@ -40,13 +57,30 @@ export default {
     data() {
         return {
             text: this.comment.text,
+            comment_text: '',
             show_modal_update: false,
             error: '',
+            show_modal_create: false,
         }
     },
     computed: mapState(['auth']),
     props: ['comment'],
     methods: {
+        create: async function () {
+            await axios.post('/comment/create', {
+                text: this.comment_text,
+                comment_id: this.comment.id,
+            })
+                .then(response => {
+                    if (typeof response.data === 'string') {
+                        this.error = response.data
+                    } else {
+                        this.error = ''
+                        this.show_modal_create = false
+                        this.$store.dispatch('posts')
+                    }
+                })
+        },
         update: async function () {
             await axios.patch(`/comment/${this.comment.id}`, {text: this.text})
                 .then(response => {

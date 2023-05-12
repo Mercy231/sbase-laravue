@@ -19,11 +19,21 @@ class CommentController extends Controller
         if ($validator->stopOnFirstFailure()->fails()) {
             return response()->json($validator->errors()->first());
         }
-        $comment = Comment::create([
-            "user_id" => Auth::user()->id,
-            "post_id" => $request->post_id,
-            "text" => $request->text,
-        ]);
+        if ($request->comment_id) {
+            $comment = Comment::create([
+                "user_id" => Auth::user()->id,
+                "post_id" => null,
+                "comment_id" => $request->comment_id,
+                "text" => $request->text,
+            ]);
+        } else {
+            $comment = Comment::create([
+                "user_id" => Auth::user()->id,
+                "post_id" => $request->post_id,
+                "comment_id" => null,
+                "text" => $request->text,
+            ]);
+        }
         return response()->json($comment);
     }
     protected function update ($id, Request $request) : JsonResponse

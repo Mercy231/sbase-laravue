@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static find($id)
@@ -20,9 +21,11 @@ class Comment extends Model
         "post_id",
         "user_id",
         "text",
+        "comment_id",
     ];
     protected $with = [
         "user",
+        "comments",
     ];
     public function user () : BelongsTo
     {
@@ -31,5 +34,9 @@ class Comment extends Model
     public function post () : BelongsTo
     {
         return $this->belongsTo(Post::class);
+    }
+    public function comments () : HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }

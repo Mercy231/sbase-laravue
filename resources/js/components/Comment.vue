@@ -51,7 +51,8 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapState} from "vuex"
+import Swal from "sweetalert2"
 
 export default {
     data() {
@@ -73,11 +74,22 @@ export default {
             })
                 .then(response => {
                     if (typeof response.data === 'string') {
-                        this.error = response.data
+                        // this.error = response.data
+                        Swal.fire({
+                            title: 'Error!',
+                            icon: 'error',
+                            text: response.data,
+                            confirmButtonText: 'Close',
+                        })
                     } else {
                         this.error = ''
                         this.show_modal_create = false
                         this.$store.dispatch('posts')
+                        Swal.fire({
+                            title: 'Success!',
+                            icon: 'success',
+                            confirmButtonText: 'Close',
+                        })
                     }
                 })
         },
@@ -85,18 +97,36 @@ export default {
             await axios.patch(`/comment/${this.comment.id}`, {text: this.text})
                 .then(response => {
                     if (typeof response.data === 'string') {
-                        this.error = response.data
+                        // this.error = response.data
+                        Swal.fire({
+                            title: 'Error!',
+                            icon: 'error',
+                            text: response.data,
+                            confirmButtonText: 'Close',
+                        })
                     } else {
                         this.error = ''
                         this.show_modal_update = false
                         this.$store.dispatch('posts')
+                        Swal.fire({
+                            title: 'Success!',
+                            icon: 'success',
+                            confirmButtonText: 'Close',
+                        })
                     }
                 })
         },
         delete: async function () {
             if (confirm("Delete comment?")) {
                 await axios.delete(`/comment/${this.comment.id}`)
-                    .then(response => {this.$store.dispatch('posts')})
+                    .then(response => {
+                        this.$store.dispatch('posts')
+                        Swal.fire({
+                            title: 'Success!',
+                            icon: 'success',
+                            confirmButtonText: 'Close',
+                        })
+                    })
             }
         },
     }

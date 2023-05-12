@@ -27,6 +27,7 @@
 import Post from "./Post.vue"
 import {useRouter} from "vue-router"
 import {mapState} from "vuex"
+import Swal from "sweetalert2"
 
 export default {
     components: {Post},
@@ -45,13 +46,25 @@ export default {
             await axios.post('/post/create', {title: this.title, text: this.text})
                 .then(response => {
                     if (typeof response.data === 'string') {
-                        this.error = response.data
+                        // this.error = response.data
+                        Swal.fire({
+                            title: 'Error!',
+                            icon: 'error',
+                            text: response.data,
+                            confirmButtonText: 'Close',
+                        })
                     } else {
                         this.title = ''
                         this.text = ''
                         this.error = ''
                         this.show_modal_create = false
                         this.$store.dispatch('posts')
+                        Swal.fire({
+                            title: 'Success!',
+                            icon: 'success',
+                            text: 'Post created!',
+                            confirmButtonText: 'Close',
+                        })
                     }
                 })
         }

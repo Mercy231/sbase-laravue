@@ -76,13 +76,7 @@ export default {
             await axios.post('/comment/create', {text: this.comment_text, post_id: this.post.id})
                 .then(response => {
                     if (typeof response.data === 'string') {
-                        // this.error = response.data
-                        Swal.fire({
-                            title: 'Error!',
-                            icon: 'error',
-                            text: response.data,
-                            confirmButtonText: 'Close',
-                        })
+                        return Promise.reject(response.data)
                     } else {
                         this.error = ''
                         this.show_modal_create = false
@@ -93,19 +87,20 @@ export default {
                             confirmButtonText: 'Close',
                         })
                     }
+                }).catch(error => {
+                    Swal.fire({
+                        title: 'Error!',
+                        icon: 'error',
+                        text: error.data,
+                        confirmButtonText: 'Close',
+                    })
                 })
         },
         update: async function () {
             await axios.patch(`/post/${this.post.id}`, {title: this.title, text: this.text})
                 .then(response => {
                     if (typeof response.data === 'string') {
-                        // this.error = response.data
-                        Swal.fire({
-                            title: 'Error!',
-                            icon: 'error',
-                            text: response.data,
-                            confirmButtonText: 'Close',
-                        })
+                        return Promise.reject(response.data)
                     } else {
                         this.error = ''
                         this.show_modal_update = false
@@ -116,19 +111,34 @@ export default {
                             confirmButtonText: 'Close',
                         })
                     }
+                }).catch(error => {
+                    Swal.fire({
+                        title: 'Error!',
+                        icon: 'error',
+                        text: error.data,
+                        confirmButtonText: 'Close',
+                    })
                 })
         },
         delete: async function () {
             if (confirm("Delete post?")) {
                 await axios.delete(`/post/${this.post.id}`)
                     .then(response => {
+                        if (typeof response.data === 'string') {
+                            return Promise.reject(response.data)
+                        }
                         this.$store.dispatch('posts')
                         Swal.fire({
                             title: 'Success!',
                             icon: 'success',
                             confirmButtonText: 'Close',
                         })
-                    })
+                    }).catch(error => {Swal.fire({
+                        title: 'Error!',
+                        icon: 'error',
+                        text: error.data,
+                        confirmButtonText: 'Close',
+                    })})
             }
         },
     }

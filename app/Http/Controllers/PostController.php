@@ -54,7 +54,7 @@ class PostController extends Controller
             $post->delete();
             return response()->json(true);
         } else {
-            return response()->json(false);
+            return response()->json("Invalid post");
         }
     }
 }

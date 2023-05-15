@@ -46,13 +46,7 @@ export default {
             await axios.post('/post/create', {title: this.title, text: this.text})
                 .then(response => {
                     if (typeof response.data === 'string') {
-                        // this.error = response.data
-                        Swal.fire({
-                            title: 'Error!',
-                            icon: 'error',
-                            text: response.data,
-                            confirmButtonText: 'Close',
-                        })
+                        return Promise.reject(response.data)
                     } else {
                         this.title = ''
                         this.text = ''
@@ -66,6 +60,13 @@ export default {
                             confirmButtonText: 'Close',
                         })
                     }
+                }).catch(error => {
+                    Swal.fire({
+                        title: 'Error!',
+                        icon: 'error',
+                        text: error.data,
+                        confirmButtonText: 'Close',
+                    })
                 })
         }
     },

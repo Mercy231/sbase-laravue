@@ -5,6 +5,9 @@
         <button @click="login">Log in</button>
         <a href="/signup">Create account</a>
         <h3>{{ error }}</h3>
+        <div>
+            <p>Login with <a href="/auth/google/redirect">Google</a></p>
+        </div>
     </div>
 </template>
 

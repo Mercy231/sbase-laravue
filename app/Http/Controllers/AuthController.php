@@ -6,11 +6,14 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -70,5 +73,28 @@ class AuthController extends Controller
     {
         Auth::logout();
         return response()->json(["success" => true]);
+    }
+    protected function googleProvider () : RedirectResponse
+    {
+        return Socialite::driver('google')->redirect();
+    }
+    protected function googleCallback () : RedirectResponse
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+        } catch (Exception $e) {
+            return redirect("/login");
+        }
+        $user = User::updateOrCreate([
+            'google_id' => $user->id,
+            'google_token' => $user->token,
+        ], [
+            'email' => $user->email,
+            'google_id' => $user->id,
+            'google_token' => $user->token,
+            'password' => Hash::make('12345test'),
+        ]);
+        Auth::login($user);
+        return redirect("/dashboard");
     }
 }

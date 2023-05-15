@@ -22,6 +22,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::post("/signup", "signup");
     Route::post("/login", "login");
     Route::get("/logout", "logout");
+    Route::get("/auth/google/redirect", "googleProvider");
+    Route::get("/auth/google/callback", "googleCallback");
 });
 Route::controller(HelperController::class)->group(function () {
     Route::get("/countries", "getCountries");

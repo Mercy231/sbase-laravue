@@ -37,19 +37,22 @@ class StripePaymentController extends Controller
         if (empty($token['id'])) {
             return response()->json("Failed. (ID)");
         }
+        $payment = Payment::create([
+            "user_id" => Auth::user()->id,
+            "token_id" => $token->id,
+            "card_number" => $request->number,
+            "amount" => $request->amount,
+            "status" => "pending",
+        ]);
         $charge = $this->createCharge($token['id'], $request->amount);
         if (!empty($charge) && $charge['status'] == 'succeeded') {
             $user = User::find(Auth::user()->id);
             $balance = (User::select("balance")->where("id", Auth::user()->id)->get())[0]['balance'];
             $user->update(["balance" => $balance + $request->amount]);
-            Payment::create([
-                "user_id" => Auth::user()->id,
-                "token_id" => $token->id,
-                "card_number" => $request->number,
-                "amount" => $request->amount,
-            ]);
+            $payment->update(["status" => "success"]);
             return response()->json(true);
         } else {
+            $payment->update(["status" => "failed"]);
             return response()->json(false);
         }
     }

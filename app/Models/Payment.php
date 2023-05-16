@@ -19,5 +19,6 @@ class Payment extends Model
         "token_id",
         "card_number",
         "amount",
+        "status",
     ];
 }

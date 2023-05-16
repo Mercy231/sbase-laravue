@@ -43,6 +43,14 @@ const router = createRouter({
                 requiresAuth: true
             }
         },
+        {
+            path: '/profile',
+            name: 'profile',
+            component: () => import('./components/Profile.vue'),
+            meta: {
+                requiresAuth: true
+            },
+        },
     ],
 })
 router.beforeEach(async (to) => {

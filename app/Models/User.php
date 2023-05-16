@@ -13,6 +13,8 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @method static create(array $array)
  * @method static updateOrCreate(array $array, array $array1)
+ * @method static find($id)
+ * @method static select(string $string)
  */
 class User extends Authenticatable
 {
@@ -33,6 +35,11 @@ class User extends Authenticatable
         'city',
         'google_id',
         'google_token',
+        'stripe_id',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at',
+        'balance',
     ];
 
     /**

@@ -15,6 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static updateOrCreate(array $array, array $array1)
  * @method static find($id)
  * @method static select(string $string)
+ * @method static where(string $string, $id)
  */
 class User extends Authenticatable
 {
@@ -40,6 +41,7 @@ class User extends Authenticatable
         'pm_last_four',
         'trial_ends_at',
         'balance',
+        'avatar',
     ];
 
     /**

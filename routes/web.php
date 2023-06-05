@@ -33,6 +33,8 @@ Route::controller(HelperController::class)->group(function () {
 });
 Route::controller(UserController::class)->group(function () {
     Route::get("/user", "getUser");
+    Route::post("/changeAvatar", "changeAvatar");
+    Route::post("/changeUserdata", "changeUserdata");
 });
 Route::controller(PostController::class)->group(function () {
     Route::get("/post", "getPosts");

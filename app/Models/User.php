@@ -75,4 +75,8 @@ class User extends Authenticatable
     {
         return $this->attributes['password'] = Hash::make($password);
     }
+    protected function getAvatarAttribute ($avatar) : string
+    {
+        return asset('/public/storage/images/avatars/' . $avatar);
+    }
 }

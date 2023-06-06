@@ -2,15 +2,17 @@
     <div class="user">
         <div>
             <div>
-                <img :src="'/public/storage/images/avatars/' + auth.user.avatar" alt="user" width="128">
+                <img :src="this.auth.user.avatar" alt="user" width="128">
                 <div>
                     <input @change="onImageChange($event)" type="file" name="test">
                     <button @click="avatarUpload">Upload</button>
                 </div>
             </div>
             <button v-if="!editProfile" @click="editProfileData">Edit profile</button>
-            <button v-if="editProfile" @click="saveChanges">Save</button>
-            <button v-if="editProfile" @click="cancelChanges">Cancel</button>
+            <div v-else>
+                <button @click="saveChanges">Save</button>
+                <button @click="cancelChanges">Cancel</button>
+            </div>
             <ul>
                 <li>
                     <div v-if="editProfile">
@@ -79,9 +81,6 @@ export default {
             editProfile: false,
             full_name: null,
             email: null,
-            country: null,
-            state: null,
-            city: null,
             errors: [],
         }
     },
@@ -138,16 +137,6 @@ export default {
             } else {
                 console.log('error')
             }
-        },
-        getStates: async function () {
-            this.state = ''
-            this.city = ''
-            await this.$store.dispatch('states', this.country)
-        },
-        getCities: async function () {
-            this.cities = ''
-            this.city = ''
-            await this.$store.dispatch('cities', this.state)
         },
         checkFields: function () {
             if (!this.full_name || !this.checkFullName(this.full_name)) {

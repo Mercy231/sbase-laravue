@@ -149,3 +149,9 @@
     justify-content: center;
     align-items: center;
 }
+
+/*Admin page*/
+.admin-page {
+    display: flex;
+    flex-direction: row;
+}

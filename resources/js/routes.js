@@ -51,6 +51,14 @@ const router = createRouter({
                 requiresAuth: true
             },
         },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: () => import('./components/Admin.vue'),
+            meta: {
+                requiresAuth: true
+            },
+        },
     ],
 })
 router.beforeEach(async (to) => {

@@ -55,6 +55,11 @@ const router = createRouter({
             path: '/admin',
             name: 'admin',
             component: () => import('./components/Admin.vue'),
+            children: [
+                { path: 'home', component: () => import('./components/admin/Home.vue') },
+                { path: 'users', component: () => import('./components/admin/Users.vue') },
+                { path: 'notifications', component: () => import('./components/admin/Notifications.vue') },
+            ],
             meta: {
                 requiresAuth: true
             },

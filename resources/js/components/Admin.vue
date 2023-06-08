@@ -1,25 +1,19 @@
 <template>
     <div class="admin-page">
-        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px; height: 100vh; position: static">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" >
             <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="fs-4">Sidebar</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <div @click="tab='Home'" class="nav-link active">
-                        Home
-                    </div>
+                    <router-link to="/admin/home" class="nav-link">Home</router-link>
                 </li>
-                <li>
-                    <div @click="tab='Users'" class="nav-link text-white">
-                        Users
-                    </div>
+                <li class="nav-item">
+                    <router-link to="/admin/users" class="nav-link">Users</router-link>
                 </li>
-                <li>
-                    <div @click="tab='Notifications'" class="nav-link text-white">
-                        Notifications
-                    </div>
+                <li class="nav-item">
+                    <router-link to="/admin/notifications" class="nav-link">Notifications</router-link>
                 </li>
             </ul>
             <hr>
@@ -37,15 +31,7 @@
                 </ul>
             </div>
         </div>
-        <div v-if="tab==='Home'">
-            Home tab
-        </div>
-        <div v-if="tab==='Users'">
-            Users tab
-        </div>
-        <div v-if="tab==='Notifications'">
-            Notifications tab
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -53,14 +39,19 @@
 import {mapState} from "vuex"
 
 export default {
-    data () {
+    data() {
         return {
             tab: 'Home',
         }
     },
     computed: mapState(['auth']),
     methods: {
-
-    },
+        activeClass: function (...names) {
+            for (let name of names) {
+                if (name === this.$route.name)
+                    return 'active';
+            }
+        },
+    }
 }
 </script>

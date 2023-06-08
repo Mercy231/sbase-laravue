@@ -155,3 +155,8 @@
     display: flex;
     flex-direction: row;
 }
+.d-flex.flex-column.flex-shrink-0.p-3.text-bg-dark {
+    width: 280px;
+    height: 100vh;
+    position: static;
+}

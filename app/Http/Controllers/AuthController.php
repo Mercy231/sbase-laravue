@@ -24,9 +24,9 @@ class AuthController extends Controller
             "email",
             "password",
             "password_confirmation",
-            "country",
-            "state",
-            "city"
+            "country_id",
+            "state_id",
+            "city_id"
         ]);
         $validator = Validator::make($credentials, [
             "full_name" => "required|min:2",
@@ -37,10 +37,6 @@ class AuthController extends Controller
         if ($validator->stopOnFirstFailure()->fails()) {
             return response()->json(["success" => false, "error" => $validator->errors()->first()]);
         }
-        $credentials["country"] = json_encode($credentials["country"]);
-        $credentials["state"] = json_encode($credentials["state"]);
-        $credentials["city"] = json_encode($credentials["city"]);
-
         $user = User::create($credentials);
         if ($user) {
             Auth::attempt($credentials);

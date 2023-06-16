@@ -46,7 +46,7 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">Country</span>
                     <select
-                        :value="userdata.country.id"
+                        :value="userdata.country_id"
                         @change="getStates($event)"
                         class="form-select">
                         <option :value="0">Select country</option>
@@ -60,7 +60,7 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">State</span>
                     <select
-                        :value="userdata.state.id"
+                        :value="userdata.state_id"
                         @change="getCities($event)"
                         class="form-select">
                         <option :value="0">Select state</option>
@@ -74,7 +74,7 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">City</span>
                     <select
-                        :value="userdata.city.id"
+                        :value="userdata.city_id"
                         @change="setSelectedCity($event)"
                         class="form-select">
                         <option :value="0">Select city</option>
@@ -173,9 +173,9 @@ export default {
                 id: user.id,
                 full_name: user.full_name,
                 email: user.email,
-                country: user.country,
-                state: user.state,
-                city: user.city,
+                country_id: user.country_id,
+                state_id: user.state_id,
+                city_id: user.city_id,
                 balance: user.balance,
                 avatar: user.avatar,
                 image: null,
@@ -190,27 +190,18 @@ export default {
             this.showModal = false
         },
         getStates: function ($event) {
-            this.userdata.country = {
-                id: $event.target.value,
-                name: $event.target.options[$event.target.options.selectedIndex].dataset.name,
-            }
-            this.userdata.state = {id: 0, name: "null"}
-            this.userdata.city = {id: 0, name: "null"}
-            this.$store.dispatch('states', this.userdata.country.id)
+            this.userdata.country_id = $event.target.value
+            this.userdata.state_id = 0
+            this.userdata.city_id = 0
+            this.$store.dispatch('states', this.userdata.country_id)
         },
         getCities: async function ($event) {
-            this.userdata.state = {
-                id: $event.target.value,
-                name: $event.target.options[$event.target.options.selectedIndex].dataset.name,
-            }
-            this.userdata.city = {id: 0, name: "null"}
-            this.$store.dispatch('cities', this.userdata.state.id)
+            this.userdata.state_id = $event.target.value
+            this.userdata.city_id = 0
+            this.$store.dispatch('cities', this.userdata.state_id)
         },
         setSelectedCity: function ($event) {
-            this.userdata.city = {
-                id: $event.target.value,
-                name: $event.target.options[$event.target.options.selectedIndex].dataset.name,
-            }
+            this.userdata.city_id = $event.target.value
         },
         onImageChange: function ($event) {
             this.userdata.image = $event.target.files[0]

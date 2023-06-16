@@ -63,9 +63,9 @@ export default {
                 email: this.email,
                 password: this.password,
                 password_confirmation: this.password_confirmation,
-                country: this.country,
-                state: this.state,
-                city: this.city,
+                country_id: this.country.id,
+                state_id: this.state.id,
+                city_id: this.city.id,
             })
             .then(response => {
                 response ? this.error = response : this.router.push({name: 'dashboard'})

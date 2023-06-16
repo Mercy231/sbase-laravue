@@ -24,9 +24,9 @@ const mutations = {
     SET_USERS(state, users) {
         state.users = users
         state.users.forEach(function (user) {
-            if (user.country != null) { user.country = JSON.parse(user.country) } else { user.country = {id: 0, name: null} }
-            if (user.state != null) { user.state = JSON.parse(user.state) } else { user.state = {id: 0, name: null} }
-            if (user.city != null) { user.city = JSON.parse(user.city) } else { user.city = {id: 0, name: null} }
+            if (user.country == null) user.country = {id: 0, name: null}
+            if (user.state == null) user.state = {id: 0, name: null}
+            if (user.city == null) user.city = {id: 0, name: null}
         })
     },
 }

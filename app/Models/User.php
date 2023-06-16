@@ -3,8 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Brick\Math\BigInteger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -31,9 +33,9 @@ class User extends Authenticatable
         'full_name',
         'email',
         'password',
-        'country',
-        'state',
-        'city',
+        'country_id',
+        'state_id',
+        'city_id',
         'google_id',
         'google_token',
         'stripe_id',
@@ -53,6 +55,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    protected $with = [
+        "country",
+        "state",
+        "city",
+    ];
 
     /**
      * The attributes that should be cast.
@@ -70,6 +77,18 @@ class User extends Authenticatable
     public function comment () : HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+    public function country ()
+    {
+        return $this->hasOne(Country::class, "id","country_id");
+    }
+    public function state () : HasOne
+    {
+        return $this->hasOne(State::class,"id", "state_id");
+    }
+    public function city () : HasOne
+    {
+        return $this->hasOne(City::class,"id", "city_id");
     }
     protected function setPasswordAttribute ($password): string
     {

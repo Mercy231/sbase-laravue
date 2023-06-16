@@ -63,9 +63,9 @@ class UserController extends Controller
     protected function updateUserdata ($id, Request $request) : JsonResponse
     {
         $user = User::find($id)->toArray();
-        $user["country"] = (array) json_decode($user["country"]);
-        $user["state"] = (array) json_decode($user["state"]);
-        $user["city"] = (array) json_decode($user["city"]);
+        if ($user["country"] == null) $user["country"] = ["id" => 0, "name" => null];
+        if ($user["state"] == null) $user["state"] = ["id" => 0, "name"=> null];
+        if ($user["city"] == null) $user["city"] = ["id" => 0, "name" => null];
         $credentials = [];
         if (!empty($request->userdata)) {
             foreach ($request->userdata as $key => $value) {

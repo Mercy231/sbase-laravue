@@ -16,8 +16,10 @@ const actions = {
             .get('/user')
             .then(response => {
                 if ('user' in response.data) {
+                    if (response.data.user.country == null) response.data.user.country = {id: 0, name: null}
+                    if (response.data.user.state == null) response.data.user.state = {id: 0, name: null}
+                    if (response.data.user.city == null) response.data.user.city = {id: 0, name: null}
                     commit('SET_USER', response.data.user)
-                    // state.user.country = JSON.parse(state.user.country)
                     commit('SET_AUTHENTICATED', true)
                 } else {
                     commit('SET_AUTHENTICATED', false)
@@ -58,15 +60,6 @@ const actions = {
 const mutations = {
     SET_USER(state, user) {
         state.user = user
-        if (state.user.country != null) {
-            state.user.country = JSON.parse(user.country)
-        }
-        if (state.user.state != null) {
-            state.user.state = JSON.parse(user.state)
-        }
-        if (state.user.city != null) {
-            state.user.city = JSON.parse(user.city)
-        }
     },
     SET_AUTHENTICATED(state, bool) { state.authenticated = bool },
 }

@@ -35,6 +35,10 @@ Route::controller(UserController::class)->group(function () {
     Route::get("/user", "getUser");
     Route::post("/changeAvatar", "changeAvatar");
     Route::post("/changeUserdata", "changeUserdata");
+    Route::get("/admin/getUsers", "getUsers");
+    Route::post("/admin/updateUserdata/{id}", "updateUserdata");
+    Route::delete("/user/{id}", "destroy");
+    ROute::post("/admin/getStatistics/{id}", "getStatistics");
 });
 Route::controller(PostController::class)->group(function () {
     Route::get("/post", "getPosts");

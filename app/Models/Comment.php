@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @method static find($id)
  * @method static create(array $array)
+ * @method static where(string $string, int $int)
  */
 class Comment extends Model
 {

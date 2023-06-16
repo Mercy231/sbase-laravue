@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static latest()
  * @method static create(array $fields)
  * @method static find($id)
+ * @method static where(string $string, int $int)
  */
 class Post extends Model
 {

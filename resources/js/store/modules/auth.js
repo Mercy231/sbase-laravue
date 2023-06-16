@@ -2,7 +2,9 @@ import router from "../../routes"
 import axios from "axios"
 
 const state = () => ({
-    user: {},
+    user: {
+        country: null,
+    },
     authenticated: false,
 })
 const getters = {
@@ -15,6 +17,7 @@ const actions = {
             .then(response => {
                 if ('user' in response.data) {
                     commit('SET_USER', response.data.user)
+                    // state.user.country = JSON.parse(state.user.country)
                     commit('SET_AUTHENTICATED', true)
                 } else {
                     commit('SET_AUTHENTICATED', false)
@@ -53,7 +56,18 @@ const actions = {
     }
 }
 const mutations = {
-    SET_USER(state, user) { state.user = user },
+    SET_USER(state, user) {
+        state.user = user
+        if (state.user.country != null) {
+            state.user.country = JSON.parse(user.country)
+        }
+        if (state.user.state != null) {
+            state.user.state = JSON.parse(user.state)
+        }
+        if (state.user.city != null) {
+            state.user.city = JSON.parse(user.city)
+        }
+    },
     SET_AUTHENTICATED(state, bool) { state.authenticated = bool },
 }
 

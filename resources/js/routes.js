@@ -1,5 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import store from "./store";
+import Home from './components/admin/Home.vue'
+import Users from './components/admin/Users.vue'
+import Notifications from './components/admin/Notifications.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -56,9 +59,9 @@ const router = createRouter({
             name: 'admin',
             component: () => import('./components/Admin.vue'),
             children: [
-                { path: 'home', component: () => import('./components/admin/Home.vue') },
-                { path: 'users', component: () => import('./components/admin/Users.vue') },
-                { path: 'notifications', component: () => import('./components/admin/Notifications.vue') },
+                { path: 'home', component: Home },
+                { path: 'users', component: Users },
+                { path: 'notifications', component: Notifications },
             ],
             meta: {
                 requiresAuth: true

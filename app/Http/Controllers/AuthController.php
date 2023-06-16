@@ -37,15 +37,10 @@ class AuthController extends Controller
         if ($validator->stopOnFirstFailure()->fails()) {
             return response()->json(["success" => false, "error" => $validator->errors()->first()]);
         }
-        if ($credentials["country"] != null) {
-            $credentials["country"] = Country::select("name")->find($credentials["country"])->name;
-        }
-        if ($credentials["state"] != null) {
-            $credentials["state"] = State::select("name")->find($credentials["state"])->name;
-        }
-        if ($credentials["city"] != null) {
-            $credentials["city"] = City::select("name")->find($credentials["city"])->name;
-        }
+        $credentials["country"] = json_encode($credentials["country"]);
+        $credentials["state"] = json_encode($credentials["state"]);
+        $credentials["city"] = json_encode($credentials["city"]);
+
         $user = User::create($credentials);
         if ($user) {
             Auth::attempt($credentials);

@@ -18,6 +18,7 @@
                 v-for="user in users.users"
                 :user="user"
                 @modalOpen="modalOpen"
+                href="User"
             />
             </tbody>
         </table>
@@ -182,8 +183,8 @@ export default {
             }
             this.range = {from: null, to: null}
             this.$store.dispatch('countries')
-            this.$store.dispatch('states', user.country.id)
-            this.$store.dispatch('cities', user.state.id)
+            this.$store.dispatch('states', user.country_id)
+            this.$store.dispatch('cities', user.state_id)
             this.showModal = true
         },
         modalClose: function () {

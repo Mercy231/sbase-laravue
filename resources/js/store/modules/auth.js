@@ -16,9 +16,6 @@ const actions = {
             .get('/user')
             .then(response => {
                 if ('user' in response.data) {
-                    if (response.data.user.country == null) response.data.user.country = {id: 0, name: null}
-                    if (response.data.user.state == null) response.data.user.state = {id: 0, name: null}
-                    if (response.data.user.city == null) response.data.user.city = {id: 0, name: null}
                     commit('SET_USER', response.data.user)
                     commit('SET_AUTHENTICATED', true)
                 } else {

@@ -23,11 +23,11 @@ const actions = {
 const mutations = {
     SET_USERS(state, users) {
         state.users = users
-        state.users.forEach(function (user) {
-            if (user.country == null) user.country = {id: 0, name: null}
-            if (user.state == null) user.state = {id: 0, name: null}
-            if (user.city == null) user.city = {id: 0, name: null}
-        })
+        // state.users.forEach(function (user) {
+        //     if (user.country == null) user.country = {id: 0, name: null}
+        //     if (user.state == null) user.state = {id: 0, name: null}
+        //     if (user.city == null) user.city = {id: 0, name: null}
+        // })
     },
 }
 

@@ -59,6 +59,8 @@ class User extends Authenticatable
         "country",
         "state",
         "city",
+        "notifications",
+        "newNotifications",
     ];
 
     /**
@@ -89,6 +91,16 @@ class User extends Authenticatable
     public function city () : HasOne
     {
         return $this->hasOne(City::class,"id", "city_id");
+    }
+    public function notifications() : HasMany
+    {
+        return $this->hasMany(Notification::class)
+            ->whereNot("status", "deleted")
+            ->orderBy("updated_at");
+    }
+    public function newNotifications() : HasMany
+    {
+        return $this->hasMany(Notification::class)->where("status", "unread");
     }
     protected function setPasswordAttribute ($password): string
     {

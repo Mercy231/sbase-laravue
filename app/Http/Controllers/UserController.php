@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
 use Carbon\Carbon;
@@ -129,5 +130,43 @@ class UserController extends Controller
             $from->next("day");
         }
         return response()->json(["range" => $range, "count" => $count]);
+    }
+    protected function createNotification (Request $request) : JsonResponse
+    {
+        $validator = Validator::make($request->only("title", "text"), [
+            "title" => "required|min:2",
+            "text" => "required|min:1",
+        ]);
+        if ($validator->stopOnFirstFailure()->fails()) {
+            return response()->json($validator->errors()->first());
+        }
+        if ($request->id == 0) {
+            foreach (User::all() as $user) {
+                $notification = Notification::create([
+                    "user_id" => $user->id,
+                    "title" => $request->title,
+                    "text" => $request->text,
+                    "status" => "unread"
+                ]);
+            }
+        } else {
+            $notification = Notification::create([
+                "user_id" => $request->id,
+                "title" => $request->title,
+                "text" => $request->text,
+                "status" => "unread"
+            ]);
+        }
+        return response()->json(true);
+    }
+    protected function readNotification (Request $request) : JsonResponse
+    {
+        Notification::find($request->id)->update(["status" => "read"]);
+        return response()->json(true);
+    }
+    protected function deleteNotification (Request $request) : JsonResponse
+    {
+        Notification::find($request->id)->update(["status" => "deleted"]);
+        return response()->json();
     }
 }

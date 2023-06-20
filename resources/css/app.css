@@ -208,3 +208,61 @@
 .input-group.mb-3 .input-group-text {
     min-width: 120px;
 }
+.admin-notifications {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+}
+.nav-bar-notifications {
+    cursor: pointer;
+}
+.nav-bar-notifications .bi.bi-dot {
+    position: absolute;
+    right: 12px;
+    top: -2px;
+    color: red;
+}
+.bi.bi-bell-fill {
+    color: white;
+}
+.notification {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-radius: 16px;
+    transition: 0.2s all;
+}
+.notification:hover {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #a0aec0;
+    padding: 8px 16px;
+    border-radius: 16px;
+    transition: 0.2s all;
+}
+.notification .bi.bi-dot {
+    color: red;
+}
+.notification-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.notification-body .bi.bi-dot {
+    position: absolute;
+    margin-bottom: 60px;
+    right: 870px;
+}

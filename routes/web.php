@@ -39,6 +39,9 @@ Route::controller(UserController::class)->group(function () {
     Route::post("/admin/updateUserdata/{id}", "updateUserdata");
     Route::delete("/user/{id}", "destroy");
     ROute::post("/admin/getStatistics/{id}", "getStatistics");
+    Route::post("/admin/notification/create", "createNotification");
+    Route::post("/user/notification/read", "readNotification");
+    Route::post("/user/notification/delete", "deleteNotification");
 });
 Route::controller(PostController::class)->group(function () {
     Route::get("/post", "getPosts");

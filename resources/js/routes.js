@@ -67,6 +67,7 @@ const router = createRouter({
             ],
             meta: {
                 requiresAuth: true,
+                adminAccess: true,
             },
         },
     ],
@@ -75,15 +76,16 @@ router.beforeEach(async (to) => {
     await store.dispatch('user')
     let role = store.state.auth.user.role
     if (to.meta.requiresAuth && !store.state.auth.authenticated) return {name: 'login'}
-    if (to.name === 'admin' && role === 'Guest') return {name: 'dashboard'}
-    if (to.name === 'admin/home' && role === 'Guest') return {name: 'dashboard'}
-    if (to.name === 'admin/users' && role === 'Guest') return {name: 'dashboard'}
-    if (to.name === 'admin/notifications' && role === 'Guest') return {name: 'dashboard'}
-    if (
-        to.name === 'admin/roles' && role === 'Guest'
-        ||
-        to.name === 'admin/roles' && role === 'Manager'
-    ) return {name: 'dashboard'}
+    if (to.meta.adminAccess && !store.state.auth.adminAccess) return {name: 'dashboard'}
+    // if (to.name === 'admin' && role === 'Guest') return {name: 'dashboard'}
+    // if (to.name === 'admin/home' && role === 'Guest') return {name: 'dashboard'}
+    // if (to.name === 'admin/users' && role === 'Guest') return {name: 'dashboard'}
+    // if (to.name === 'admin/notifications' && role === 'Guest') return {name: 'dashboard'}
+    // if (
+    //     to.name === 'admin/roles' && role === 'Guest'
+    //     ||
+    //     to.name === 'admin/roles' && role === 'Manager'
+    // ) return {name: 'dashboard'}
     if (to.name === 'login' && store.state.auth.authenticated) return {name: 'dashboard'}
     if (to.name === 'signup' && store.state.auth.authenticated) return {name: 'dashboard'}
 })

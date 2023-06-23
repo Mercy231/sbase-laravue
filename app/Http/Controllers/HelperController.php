@@ -41,25 +41,27 @@ class HelperController extends Controller
         $response = [];
         foreach ($permissions as $item) {
             if (in_array($item, $rolePermissions)) {
-                $response[] = true;
+                $response[] = ["name" => $item, "value" => true];
                 continue;
             }
-            $response[] = false;
+            $response[] = ["name" => $item, "value" => false];
         }
         return $response;
     }
     protected function setPermissions (Request $request) : JsonResponse
     {
         $role = Role::findByName($request->role);
-        $allPermissions = Permission::all()->pluck("name")->toArray();
-        $rolePermissions = array_combine($allPermissions, $request->permissions);
-        foreach ($rolePermissions as $key => $value) {
-            if ($value) {
-                $role->givePermissionTo($key);
+        foreach ($request->permissions as $item) {
+            if ($item["value"]) {
+                $role->givePermissionTo($item["name"]);
             } else {
-                $role->revokePermissionTo($key);
+                $role->revokePermissionTo($item["name"]);
             }
         }
         return response()->json(true);
+    }
+    protected function getRoles () : array
+    {
+        return Role::whereNot("name", "Admin")->orderBy("id")->get()->toArray();
     }
 }

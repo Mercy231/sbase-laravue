@@ -6,6 +6,7 @@ const state = () => ({
         country: null,
     },
     authenticated: false,
+    adminAccess: false,
 })
 const getters = {
     GET_USER: (state) => state.user
@@ -57,6 +58,7 @@ const actions = {
 const mutations = {
     SET_USER(state, user) {
         state.user = user
+        state.adminAccess = user.role === 'Admin' || user.role === 'Manager'
     },
     SET_AUTHENTICATED(state, bool) { state.authenticated = bool },
 }

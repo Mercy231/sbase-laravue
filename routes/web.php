@@ -32,6 +32,7 @@ Route::controller(HelperController::class)->group(function () {
     Route::post("/cities", "getCities");
     Route::post("/admin/getPermissions", "getPermissions");
     Route::post("/admin/setPermissions", "setPermissions");
+    Route::get("/admin/getRoles", "getRoles");
 });
 Route::controller(UserController::class)->group(function () {
     Route::get("/user", "getUser");

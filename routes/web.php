@@ -30,15 +30,23 @@ Route::controller(HelperController::class)->group(function () {
     Route::get("/countries", "getCountries");
     Route::post("/states", "getStates");
     Route::post("/cities", "getCities");
+    Route::post("/admin/getPermissions", "getPermissions");
+    Route::post("/admin/setPermissions", "setPermissions");
 });
 Route::controller(UserController::class)->group(function () {
     Route::get("/user", "getUser");
     Route::post("/changeAvatar", "changeAvatar");
     Route::post("/changeUserdata", "changeUserdata");
-    Route::get("/admin/getUsers", "getUsers");
-    Route::post("/admin/updateUserdata/{id}", "updateUserdata");
-    Route::delete("/user/{id}", "destroy");
-    ROute::post("/admin/getStatistics/{id}", "getStatistics");
+    Route::middleware("role:Admin|Manager")->group(function () {
+        Route::get("/admin/getUsers", "getUsers");
+    });
+    Route::middleware("permission:edit-users")->group(function () {
+        Route::post("/admin/updateUserdata/{id}", "updateUserdata");
+    });
+    Route::middleware("permission:delete-users")->group(function () {
+        Route::delete("/user/{id}", "destroy");
+    });
+    Route::post("/admin/getStatistics/{id}", "getStatistics");
     Route::post("/admin/notification/create", "createNotification");
     Route::post("/user/notification/read", "readNotification");
     Route::post("/user/notification/delete", "deleteNotification");

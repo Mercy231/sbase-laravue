@@ -41,6 +41,7 @@ class AuthController extends Controller
         if ($user) {
             Auth::attempt($credentials);
         }
+        $user->assignRole('Guest');
         return response()->json(["success" => true]);
     }
     protected function login (Request $request) : JsonResponse

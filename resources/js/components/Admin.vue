@@ -15,6 +15,9 @@
                 <li class="nav-item">
                     <router-link to="/admin/notifications" class="nav-link">Notifications</router-link>
                 </li>
+                <li v-if="auth.user.role==='Admin'" class="nav-item">
+                    <router-link to="/admin/roles" class="nav-link">Roles</router-link>
+                </li>
             </ul>
             <hr>
             <div class="dropdown">

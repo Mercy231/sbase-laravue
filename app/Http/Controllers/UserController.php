@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -89,7 +90,7 @@ class UserController extends Controller
         unset($credentials["image"]);
 
         User::where("id", $id)->update($credentials);
-
+        User::find($id)->syncRoles([$request->userdata["role"]]);
         if($request->hasFile('image')){
             $request->image = $request->file('image');
             $filename = md5($request->image->getClientOriginalName().time()).'.'.$request->image->extension();

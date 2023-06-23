@@ -90,6 +90,16 @@
                     <span class="input-group-text">Balance</span>
                     <input :value="userdata.balance" @input="userdata.balance=$event.target.value" type="number" class="form-control">
                 </div>
+                <div v-if="userdata.role!=='Admin'" class="input-group mb-3">
+                    <span class="input-group-text">Role</span>
+                    <select
+                    :value="userdata.role"
+                    @change="setRole($event)"
+                    class="form-select">
+                        <option value="Manager">Manager</option>
+                        <option value="Guest">Guest</option>
+                    </select>
+                </div>
                 <div>
                     <button @click="saveChanges(userdata.id)" class="btn btn-success">Save</button>
                     <button @click="deleteUser(userdata.id)" class="btn btn-danger">Delete</button>
@@ -116,6 +126,7 @@ import Swal from 'sweetalert2'
 import {Chart as ChartJS, ArcElement, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js'
 import { Bar } from 'vue-chartjs'
 import User from './users/User.vue'
+import user from "@/components/admin/users/User.vue";
 
 ChartJS.register(CategoryScale, LinearScale, ArcElement, BarElement, Title, Tooltip, Legend)
 
@@ -134,6 +145,7 @@ export default {
                 balance: null,
                 avatar: null,
                 image: null,
+                role: null,
             },
             range: {
                 from: null,
@@ -180,6 +192,7 @@ export default {
                 balance: user.balance,
                 avatar: user.avatar,
                 image: null,
+                role: user.role,
             }
             this.range = {from: null, to: null}
             this.$store.dispatch('countries')
@@ -305,6 +318,9 @@ export default {
                         confirmButtonText: 'Close',
                     })
                 })
+        },
+        setRole: function ($event) {
+            this.userdata.role = $event.target.value
         },
     },
     mounted() {
